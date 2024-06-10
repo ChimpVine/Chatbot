@@ -1,15 +1,45 @@
-from flask import Flask, render_template
-import json
+import os
+import openai
+from flask import Flask, request, jsonify, render_template
 
-app = Flask(__name__, template_folder='template')
+app = Flask(__name__)
 
-# Load FAQs from JSON file
-with open('faqs.json', 'r') as file:
-    faqs = json.load(file)
+# Set the OpenAI API key
+api_key = os.getenv("OPENAI_API_KEY", "sk-proj-1vPIlHmPoYx9c8W2Co0kT3BlbkFJqzfUBPrTA6eCLpiwthJk")
+openai.api_key = api_key
 
-@app.route('/', methods=['GET'])
-def render_home():
-    return render_template('faq.html', faqs=faqs)
+# Load the FAQ content from the text file
+def load_faq(file_path):
+    with open(file_path, 'r') as file:
+        faq_content = file.read()
+    return faq_content
 
-if __name__ == '__main__':
+# Function to interact with the OpenAI API
+def ask_openai(question, faq_content):
+    prompt = f"Based on the following FAQ content, please answer the question:\n\n{faq_content}\n\nQ: {question}\nA:"
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "system", "content": prompt}],
+        max_tokens=100,
+        temperature=0.7,
+    )
+    return response.choices[0].message['content'].strip()
+
+# Load the FAQ content once when the server starts
+faq_content = load_faq('faq.txt')
+
+@app.route('/')
+def index():
+    return render_template('faq.html')
+
+@app.route('/ask', methods=['POST'])
+def ask():
+    try:
+        question = request.json['question']
+        answer = ask_openai(question, faq_content)
+        return jsonify({"answer": answer})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+if __name__ == "__main__":
     app.run(debug=True)

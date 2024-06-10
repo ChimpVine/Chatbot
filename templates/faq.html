@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChimpVine Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .chat-container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            max-width: 100%;
+        }
+
+        .chat-box {
+            border: 1px solid #ddd;
+            padding: 10px;
+            height: 300px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+            border-radius: 8px;
+        }
+
+        .chat-input {
+            display: flex;
+        }
+
+        .chat-input input {
+            width: 80%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px 0 0 8px;
+        }
+
+        .chat-input button {
+            width: 20%;
+            padding: 10px;
+            border: none;
+            background: #03b5d2;
+            color: #fff;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+        }
+
+        .chat-input button:hover {
+            background: #029bb5;
+        }
+
+        .message {
+            margin: 10px 0;
+        }
+
+        .message.user {
+            text-align: right;
+        }
+
+        .message.bot {
+            text-align: left;
+        }
+    </style>
+    <script>
+        async function sendMessage(event) {
+            event.preventDefault();
+            const inputField = document.getElementById('chat-input');
+            const message = inputField.value.trim();
+            if (message === '') return;
+
+            displayMessage(message, 'user');
+            inputField.value = '';
+
+            const response = await fetch('/ask', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ question: message })
+            });
+
+            const data = await response.json();
+            if (data.error) {
+                displayMessage(data.error, 'bot');
+            } else {
+                displayMessage(data.answer, 'bot');
+            }
+        }
+
+        function displayMessage(text, sender) {
+            const chatBox = document.getElementById('chat-box');
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message', sender);
+            messageElement.textContent = text;
+            chatBox.appendChild(messageElement);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+</head>
+
+<body>
+    <div class="chat-container">
+        <div id="chat-box" class="chat-box"></div>
+        <form class="chat-input" onsubmit="sendMessage(event)">
+            <input type="text" id="chat-input" placeholder="Type your question here..." />
+            <button type="submit">Send</button>
+        </form>
+    </div>
+</body>
+
+</html>
