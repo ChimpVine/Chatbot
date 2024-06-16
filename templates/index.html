@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Problem Solver</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #F8F9D7;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #FFFFFF;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+            color: #850F8D;
+        }
+        input[type="text"], input[type="file"] {
+            width: calc(100% - 80px);
+            padding: 8px;
+            border: 1px solid #C738BD;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        button {
+            background-color: #850F8D;
+            color: #FFFFFF;
+            border: none;
+            padding: 8px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #C738BD;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid #E49BFF;
+            margin: 20px 0;
+        }
+        h1, h2 {
+            color: #850F8D;
+        }
+        .history-item {
+            background-color: #F8F9D7;
+            border: 1px solid #E49BFF;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        .history-item strong {
+            color: #850F8D;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .history-item p {
+            margin: 0;
+        }
+        .processing {
+            color: #850F8D;
+            font-style: italic;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Math Problem Solver</h1>
+
+        <div class="form-group">
+            <label for="userInput">Enter Math Question:</label>
+            <input type="text" id="userInput" placeholder="e.g., What is the square root of 16?">
+            <button onclick="solveText()">Solve</button>
+            <span id="textProcessing" class="processing">Processing...</span>
+        </div>
+
+        <div class="form-group">
+            <label for="imageUrl">Enter Image URL:</label>
+            <input type="text" id="imageUrl" placeholder="Paste image URL">
+            <button onclick="solveImageUrl()">Solve</button>
+            <span id="imageUrlProcessing" class="processing">Processing...</span>
+        </div>
+
+        <div class="form-group">
+            <label for="imageUpload">Upload Image:</label>
+            <input type="file" id="imageUpload">
+            <button onclick="solveImageUpload()">Solve</button>
+            <span id="imageUploadProcessing" class="processing">Processing...</span>
+        </div>
+
+        <hr>
+
+        <h2>API History</h2>
+        <div id="historyList"></div>
+    </div>
+
+    <script>
+        async function solveText() {
+            const userInput = document.getElementById('userInput').value.trim();
+            if (!userInput) {
+                alert('Please enter a math question.');
+                return;
+            }
+            // Display processing text
+            document.getElementById('textProcessing').style.display = 'inline';
+
+            try {
+                const response = await fetch('/solve_text', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ user_input: userInput })
+                });
+                const data = await response.json();
+                displayHistory('Text', userInput, data.steps || data.error);
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to process the request. Please try again.');
+            } finally {
+                // Hide processing text after request completes
+                document.getElementById('textProcessing').style.display = 'none';
+            }
+        }
+
+        async function solveImageUrl() {
+            const imageUrl = document.getElementById('imageUrl').value.trim();
+            if (!imageUrl) {
+                alert('Please enter an image URL.');
+                return;
+            }
+            // Display processing text
+            document.getElementById('imageUrlProcessing').style.display = 'inline';
+
+            try {
+                const response = await fetch('/solve_image_url', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ image_url: imageUrl })
+                });
+                const data = await response.json();
+                displayHistory('Image URL', imageUrl, data.steps || data.error);
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to process the request. Please try again.');
+            } finally {
+                // Hide processing text after request completes
+                document.getElementById('imageUrlProcessing').style.display = 'none';
+            }
+        }
+
+        async function solveImageUpload() {
+            const imageUpload = document.getElementById('imageUpload').files[0];
+            if (!imageUpload) {
+                alert('Please select an image file.');
+                return;
+            }
+            // Display processing text
+            document.getElementById('imageUploadProcessing').style.display = 'inline';
+
+            try {
+                const formData = new FormData();
+                formData.append('image', imageUpload);
+                const response = await fetch('/solve_image_upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                displayHistory('Image Upload', imageUpload.name, data.steps || data.error);
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to process the request. Please try again.');
+            } finally {
+                // Hide processing text after request completes
+                document.getElementById('imageUploadProcessing').style.display = 'none';
+            }
+        }
+
+        async function fetchHistory() {
+            try {
+                const response = await fetch('/api_history');
+                const data = await response.json();
+                const historyList = document.getElementById('historyList');
+                historyList.innerHTML = ''; // Clear existing content
+                data.forEach(item => {
+                    const historyItem = document.createElement('div');
+                    historyItem.classList.add('history-item');
+                    historyItem.innerHTML = `<strong>Type:</strong> ${item.type}<br><strong>Input:</strong> ${item.input}<br><strong>Response:</strong> ${item.response}`;
+                    historyList.appendChild(historyItem);
+                });
+            } catch (error) {
+                console.error('Error fetching history:', error);
+                alert('Failed to fetch API history.');
+            }
+        }
+
+        // Display history immediately on page load
+        fetchHistory();
+
+        // Function to display history dynamically after each request
+        function displayHistory(type, input, response) {
+            const historyList = document.getElementById('historyList');
+            const historyItem = document.createElement('div');
+            historyItem.classList.add('history-item');
+            historyItem.innerHTML = `
+                <strong>Type:</strong> ${type}
+                <p><strong>Input:</strong> ${input}</p>
+                <p><strong>Response:</strong> ${response}</p>
+            `;
+            historyList.insertBefore(historyItem, historyList.firstChild);
+        }
+    </script>
+</body>
+</html>
