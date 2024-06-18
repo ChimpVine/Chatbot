@@ -39,10 +39,6 @@ pip install requests
    - Create a `.env` file in the root directory.
    - Define necessary environment variables (e.g., API keys, configurations).
 
-4. Run the Flask application:
 
-   ```bash
-   streamlit run app.py
-   ```
 
-5. Open your web browser and navigate to http://localhost:8501 to view the application.
+4. Open your web browser and navigate to http://localhost:8501 to view the application.
