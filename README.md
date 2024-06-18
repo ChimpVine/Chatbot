@@ -33,7 +33,6 @@ pip install requests
  ```
 ### Note: base64 and json are part of the Python Standard Library and do not need to be installed separately.
 
-echo "All packages have been installed."
 
 3. Set up environment variables:
    
