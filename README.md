@@ -31,7 +31,7 @@ pip install google-generativeai
 pip install openai
 pip install requests
  ```
-# Note: base64 and json are part of the Python Standard Library and do not need to be installed separately.
+### Note: base64 and json are part of the Python Standard Library and do not need to be installed separately.
 
 echo "All packages have been installed."
 
