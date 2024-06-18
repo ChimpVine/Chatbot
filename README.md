@@ -7,5 +7,5 @@ This project implements an  application that solves mathematical problems either
    - **Image Upload Solver:** Solves math problems from locally uploaded images.
    - **API History:** Displays a history of API requests made by the user.
 ### Technologies Used
-    - **Frontend:** Streamlit
-    - **Libraries:** Streamlit, long-chain, dotenv, PIL (Python Imaging Library), google-generative, openai, base64, requests, json
+- **Frontend:** Streamlit
+- **Libraries:** Streamlit, long-chain, dotenv, PIL (Python Imaging Library), google-generative, openai, base64, requests, json
