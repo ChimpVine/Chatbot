@@ -21,19 +21,18 @@ To run this project locally, follow these steps:
    cd math-problem-solver
    ```
 
-2. Install dependencies:
+2. Install required Python packages:
 
-  Python Packages:
+pip install streamlit
+pip install langchain
+pip install python-dotenv
+pip install pillow  
+pip install google-generativeai
+pip install openai
+pip install requests
+# Note: base64 and json are part of the Python Standard Library and do not need to be installed separately.
 
-    -Streamlit
-    -langchain
-    -dotenv
-    -PIL (Python Imaging Library)
-    -google-generativeai
-    -openai
-    -base64
-    -requests
-    -son
+echo "All packages have been installed."
 
 3. Set up environment variables:
    
