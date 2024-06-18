@@ -5,10 +5,9 @@ This project implements an  application that solves mathematical problems either
    - **Text Input Solver:** Allows users to input math problems directly as text.
    - **Image URL Solver:** Solves math problems from images hosted online.
    - **Image Upload Solver:** Solves math problems from locally uploaded images.
-   - **API History:** Displays a history of API requests made by the user.
 ### Technologies Used
 - **Frontend:** Streamlit
-- **Libraries:** Streamlit, long-chain, dotenv, PIL (Python Imaging Library), google-generative, openai, base64, requests, json
+- **Libraries:** Streamlit, long-chain, dotenv, PIL (Python Imaging Library), google-generative, openai, base64
 
 ## Installation
 
