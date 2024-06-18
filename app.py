@@ -5,9 +5,10 @@ from flask import Flask, request, jsonify, render_template
 app = Flask(__name__)
 
 # Set the OpenAI API key
-api_key = os.getenv("OPENAI_API_KEY", "sk-proj-1vPIlHmPoYx9c8W2Co0kT3BlbkFJqzfUBPrTA6eCLpiwthJk")
+# api_key = os.getenv("OPENAI_API_KEY", "sk-proj-GUwTcSjSIxnMHoDXihsbT3BlbkFJQ5jratjTeaIIOQ5nBrQ3")
+# openai.api_key = api_key
+api_key = os.getenv("OPENAI_API_KEY", " ")
 openai.api_key = api_key
-
 # Load the FAQ content from the text file
 def load_faq(file_path):
     with open(file_path, 'r') as file:

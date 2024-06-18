@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<queryresult success='true'
+    error='false'
+    xml:space='preserve'
+    numpods='3'
+    datatypes='Plot'
+    timedout=''
+    timedoutpods=''
+    timing='1.341'
+    parsetiming='0.404'
+    parsetimedout='false'
+    recalculate=''
+    id='MSP571012h5h20190369d8i0000303fbbb1bac21379'
+    host='https://www6b3.wolframalpha.com'
+    server='1'
+    related='https://www6b3.wolframalpha.com/api/v1/relatedQueries.jsp?id=MSPa571112h5h20190369d8i000041he05gdhb0eeiib7794153569472399936'
+    version='2.6'
+    inputstring='Plot[Sin[x], {x, 0, 2*Pi}]'>
+ <pod title='Input interpretation'
+     scanner='Identity'
+     id='Input'
+     position='100'
+     error='false'
+     numsubpods='1'>
+  <subpod title=''>
+   <img src='https://www6b3.wolframalpha.com/Calculate/MSP/MSP571212h5h20190369d8i00003ih4if49f564bhe7?MSPStoreType=image/gif&amp;s=1'
+       alt='plot | sin(x) | x = 0 to 2 π'
+       title='plot | sin(x) | x = 0 to 2 π'
+       width='226'
+       height='33'
+       type='Grid'
+       themes='1,2,3,4,5,6,7,8,9,10,11,12'
+       colorinvertable='true'
+       contenttype='image/gif' />
+   <plaintext>plot | sin(x) | x = 0 to 2 π</plaintext>
+  </subpod>
+  <expressiontypes count='1'>
+   <expressiontype name='Grid' />
+  </expressiontypes>
+ </pod>
+ <pod title='Plot'
+     scanner='Plot'
+     id='Plot'
+     position='200'
+     error='false'
+     numsubpods='1'>
+  <subpod title=''>
+   <img src='https://www6b3.wolframalpha.com/Calculate/MSP/MSP571312h5h20190369d8i00000h5g701682d124b7?MSPStoreType=image/gif&amp;s=1'
+       alt='Plot'
+       title=''
+       width='330'
+       height='193'
+       type='2DMathPlot_1'
+       themes='1,2,3,4,5,6,7,8,9,10,11,12'
+       colorinvertable='true'
+       contenttype='image/gif' />
+   <plaintext></plaintext>
+  </subpod>
+  <expressiontypes count='1'>
+   <expressiontype name='Default' />
+  </expressiontypes>
+ </pod>
+ <pod title='Arc length of curve'
+     scanner='Plot'
+     id='ArcLength'
+     position='300'
+     error='false'
+     numsubpods='1'>
+  <subpod title=''>
+   <img src='https://www6b3.wolframalpha.com/Calculate/MSP/MSP571412h5h20190369d8i00002i4553227be5e2eb?MSPStoreType=image/gif&amp;s=1'
+       alt='integral_0^(2 π) sqrt(1 + cos^2(x))dx = 4 sqrt(2) E(1/2)≈7.640'
+       title='integral_0^(2 π) sqrt(1 + cos^2(x))dx = 4 sqrt(2) E(1/2)≈7.640'
+       width='294'
+       height='40'
+       type='Default'
+       themes='1,2,3,4,5,6,7,8,9,10,11,12'
+       colorinvertable='true'
+       contenttype='image/gif' />
+   <plaintext>integral_0^(2 π) sqrt(1 + cos^2(x))dx = 4 sqrt(2) E(1/2)≈7.640</plaintext>
+  </subpod>
+  <expressiontypes count='1'>
+   <expressiontype name='Default' />
+  </expressiontypes>
+  <states count='2'>
+   <state name='More digits'
+       input='ArcLength__More digits' />
+   <state name='Step-by-step solution'
+       input='ArcLength__Step-by-step solution'
+       stepbystep='true'
+       buttonstyle='StepByStepSolution' />
+  </states>
+  <infos count='1'>
+   <info text='E(m) is the complete elliptic integral of the second kind with parameter m = k^2'>
+    <img src='https://www6b3.wolframalpha.com/Calculate/MSP/MSP571512h5h20190369d8i0000578b24f7a9bf006a?MSPStoreType=image/gif&amp;s=1'
+        alt='E(m) is the complete elliptic integral of the second kind with parameter m = k^2'
+        title='E(m) is the complete elliptic integral of the second kind with parameter m = k^2'
+        width='495'
+        height='45' />
+    <link url='http://reference.wolfram.com/language/ref/EllipticE.html'
+        text='Documentation'
+        title='Mathematica' />
+    <link url='http://functions.wolfram.com/EllipticIntegrals/EllipticE'
+        text='Properties'
+        title='Wolfram Functions Site' />
+    <link url='http://mathworld.wolfram.com/CompleteEllipticIntegraloftheSecondKind.html'
+        text='Definition'
+        title='MathWorld' />
+   </info>
+  </infos>
+ </pod>
+</queryresult>
