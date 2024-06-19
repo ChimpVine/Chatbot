@@ -72,6 +72,10 @@
         }
     </style>
     <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            displayMessage('Hello, welcome to ChimpVine, how can I help?', 'bot');
+        });
+
         async function sendMessage(event) {
             event.preventDefault();
             const inputField = document.getElementById('chat-input');
