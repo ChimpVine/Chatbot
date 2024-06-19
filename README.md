@@ -1,26 +1,28 @@
+FAQ of chimpvine
+
+This code represent the chatbot system from where you can find out about the chimpvine site information and its all the offer. 
+
 Installation
-Clone the Repository:
-git clone https://github.com/your_username/your_project.git
-
-Navigate to the Project Directory:
-cd your_project
 
 
-Create a Virtual Environment (optional but recommended):
-python -m venv venv
+To run this project locally, follow these steps:
 
 
-Activate the Virtual Environment:
+Clone the repository:
 
-On Windows:
-venv\Scripts\activate
-On macOS/Linux:
-source venv/bin/activate
+git clone <repository_url>
+cd FAQ
+Install dependencies:
 
-Install Requirements:
 pip install -r requirements.txt
+Set up environment variables:
 
+Create a .env file in the root directory.
+Define necessary environment variables (e.g., API keys, configurations)
 
-Usage
-Run the following command to start the application:
+Run the Flask application:
+
 python app.py
+Open your web browser and navigate to
+
+http://localhost:5000 to view the application.
