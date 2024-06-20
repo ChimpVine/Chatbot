@@ -61,6 +61,7 @@
 
         .message {
             margin: 10px 0;
+            word-wrap: break-word; /* Ensure long messages wrap within chat box */
         }
 
         .message.user {
@@ -73,7 +74,7 @@
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
-            displayMessage('Hello, welcome to ChimpVine, how can I help?', 'bot');
+            displayMessage('Hello, welcome to ChimpVine, how can I help you?', 'bot');
         });
 
         async function sendMessage(event) {
@@ -85,19 +86,24 @@
             displayMessage(message, 'user');
             inputField.value = '';
 
-            const response = await fetch('/ask', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ question: message })
-            });
+            try {
+                const response = await fetch('/ask', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ question: message })
+                });
 
-            const data = await response.json();
-            if (data.error) {
-                displayMessage(data.error, 'bot');
-            } else {
-                displayMessage(data.answer, 'bot');
+                const data = await response.json();
+                if (data.error) {
+                    displayMessage(data.error, 'bot');
+                } else {
+                    displayMessage(data.answer, 'bot');
+                }
+            } catch (error) {
+                displayMessage('Error communicating with server', 'bot');
+                console.error('Error:', error);
             }
         }
 
@@ -116,10 +122,29 @@
     <div class="chat-container">
         <div id="chat-box" class="chat-box"></div>
         <form class="chat-input" onsubmit="sendMessage(event)">
-            <input type="text" id="chat-input" placeholder="Type your question here..." />
+            <input type="text" id="chat-input" placeholder="Type your question here..." autocomplete="off" />
             <button type="submit">Send</button>
         </form>
     </div>
+
+    <!-- Include Flask message handling -->
+    <script>
+        async function displayInitialMessage() {
+            try {
+                const response = await fetch('/initial_message');
+                const data = await response.json();
+                if (data.message) {
+                    displayMessage(data.message, 'bot');
+                } else {
+                    console.error('Failed to retrieve initial message');
+                }
+            } catch (error) {
+                console.error('Error retrieving initial message:', error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', displayInitialMessage);
+    </script>
 </body>
 
 </html>
