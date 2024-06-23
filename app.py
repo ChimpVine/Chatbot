@@ -101,7 +101,7 @@ def handle_user_query(question, website_url):
 # Route for serving index page
 @app.route('/')
 def index():
-    return render_template('index.html')  # Make sure you have an 'index.html' template
+    return render_template('index.html')  
 
 # Route for handling user queries
 @app.route('/ask', methods=['POST'])
