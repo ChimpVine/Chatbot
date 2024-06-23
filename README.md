@@ -37,6 +37,7 @@ pip install opencv-python
    - Replace 'YOUR_APP_ID' in the code with your actual Wolfram Alpha API key.
      
 4. Run the Streamlit app:
-- streamlit run app.py
--   
-5. Open your web browser and navigate to http://localhost:8501 to view the application.
+```bash
+ streamlit run app.py
+```  
+6. Open your web browser and navigate to http://localhost:8501 to view the application.
