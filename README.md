@@ -29,13 +29,14 @@ pip install pillow
 pip install numpy
 pip install opencv-python
  ```
-### Note: base64 and json are part of the Python Standard Library and do not need to be installed separately.
+### Note: base64 and JSON are part of the Python Standard Library and do not need to be installed separately.
 
 
-3.Set up your Wolfram Alpha API key:
+3. Set up your Wolfram Alpha API key:
    
    - Replace 'YOUR_APP_ID' in the code with your actual Wolfram Alpha API key.
-4.Run the Streamlit app:
+     
+4. Run the Streamlit app:
 - streamlit run app.py
 -   
 5. Open your web browser and navigate to http://localhost:8501 to view the application.
