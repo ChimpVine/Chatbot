@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ChimpVine Chatbot</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -36,32 +37,35 @@
 
         .chat-input {
             display: flex;
+            align-items: center;
         }
 
         .chat-input input {
-            width: 80%;
+            width: 100%;
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 8px 0 0 8px;
         }
 
-        .chat-input button {
-            width: 20%;
-            padding: 10px;
+        .chat-input .icon-button {
+            background: none;
             border: none;
-            background: #03b5d2;
-            color: #fff;
-            border-radius: 0 8px 8px 0;
+            padding: 0 10px;
             cursor: pointer;
         }
 
-        .chat-input button:hover {
-            background: #029bb5;
+        .icon-button i {
+            font-size: 24px;
+            color: #333;
+        }
+
+        .icon-button:hover i {
+            color: #007bff;
         }
 
         .message {
             margin: 10px 0;
-            word-wrap: break-word; /* Ensure long messages wrap within chat box */
+            word-wrap: break-word;
         }
 
         .message.user {
@@ -73,9 +77,55 @@
         }
     </style>
     <script>
-        document.addEventListener('DOMContentLoaded', (event) => {
-            displayMessage('Hello, welcome to ChimpVine, how can I help you?', 'bot');
-        });
+        let mediaRecorder;
+        let audioChunks = [];
+
+        async function startRecording() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+
+                mediaRecorder.ondataavailable = event => {
+                    audioChunks.push(event.data);
+                };
+
+                mediaRecorder.onstop = () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                    sendAudio(audioBlob);
+                    audioChunks = [];
+                };
+
+                mediaRecorder.start();
+                setTimeout(() => {
+                    mediaRecorder.stop();
+                }, 5000); // Adjust duration as needed
+            } catch (err) {
+                console.error('Error accessing microphone:', err);
+                displayMessage('Microphone access denied or not supported', 'bot');
+            }
+        }
+
+        async function sendAudio(audioBlob) {
+            const formData = new FormData();
+            formData.append('file', audioBlob, 'speech.wav');
+
+            try {
+                const response = await fetch('/voice_input', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+                if (data.error) {
+                    displayMessage(data.error, 'bot');
+                } else {
+                    displayMessage(data.answer, 'bot');
+                }
+            } catch (error) {
+                displayMessage('Error communicating with server', 'bot');
+                console.error('Error:', error);
+            }
+        }
 
         async function sendMessage(event) {
             event.preventDefault();
@@ -117,34 +167,19 @@
         }
     </script>
 </head>
-
 <body>
     <div class="chat-container">
         <div id="chat-box" class="chat-box"></div>
         <form class="chat-input" onsubmit="sendMessage(event)">
             <input type="text" id="chat-input" placeholder="Type your question here..." autocomplete="off" />
-            <button type="submit">Send</button>
+            <button type="button" class="icon-button" onclick="startRecording()" title="Voice Input">
+                <i class="fas fa-microphone"></i>
+            </button>
+            <button type="button" class="icon-button" onclick="sendMessage(event)" title="Send">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+            <button type="submit" style="display:none;">Send</button>
         </form>
     </div>
-
-    <!-- Include Flask message handling -->
-    <script>
-        async function displayInitialMessage() {
-            try {
-                const response = await fetch('/initial_message');
-                const data = await response.json();
-                if (data.message) {
-                    displayMessage(data.message, 'bot');
-                } else {
-                    console.error('Failed to retrieve initial message');
-                }
-            } catch (error) {
-                console.error('Error retrieving initial message:', error);
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', displayInitialMessage);
-    </script>
 </body>
-
 </html>

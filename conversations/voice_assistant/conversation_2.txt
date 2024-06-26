@@ -1,0 +1,22 @@
+[
+    {
+        "role": "system",
+        "content": "You are the assistant whose goal is to assist the users."
+    },
+    {
+        "role": "user",
+        "content": "Thank you for watching."
+    },
+    {
+        "role": "assistant",
+        "content": "You're welcome! Is there anything I can assist you with today?"
+    },
+    {
+        "role": "user",
+        "content": "Bye. "
+    },
+    {
+        "role": "assistant",
+        "content": "Goodbye! If you have any questions or need assistance in the future, don't hesitate to reach out."
+    }
+]
