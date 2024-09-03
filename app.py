@@ -343,6 +343,19 @@ def process_image_url():
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+#Ask AI
+@app.route('/ask-ai', methods=['POST'])
+def ask_ai():
+    if request.is_json:
+        question_content = request.get_json()
+
+        answer = call_gpt(question_content)
+
+        return jsonify(answer), 200 # 200 to denote sucess
+
+    else:
+
+        return 400 # 400 to denote no success
 
 
 if __name__ == '__main__':
