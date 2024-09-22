@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chimpvine - ChattyBot</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        body {
+            background-color: #EAEEF3;
+            font-family: "Poppins", sans-serif;
+        }
+
+        .bg-body-tertiary {
+            background-color: #8172DB !important;
+        }
+
+        /*Sub-main CSS */
+        .header-text {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .subheader-text {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        .tampered {
+            background-image: linear-gradient(179deg, #ffa620 0%, #fba11a 50%, transparent 54%, transparent 100%);
+            font-weight: 700;
+            margin-bottom: 3.5rem;
+            background-size: 100% 15%;
+            background-repeat: repeat-x;
+            background-position: left 0% bottom 10%;
+            padding-bottom: 5px;
+        }
+
+        .solution {
+            font-size: 14px;
+        }
+
+        .center-buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .center-buttons .btn {
+            margin: 5px;
+        }
+
+        .input-section {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .input-section input {
+            width: 60%;
+            padding: 10px;
+            border-radius: 20px;
+            border: 1px solid #ccc;
+            margin-right: 10px;
+        }
+
+        .input-section .btn {
+            padding: 10px 20px;
+            border-radius: 20px;
+        }
+
+
+        .btn-dark {
+            background-color: #FF683B !important;
+            border-color: #FF683B !important;
+        }
+
+        .btn-outline-dark {
+            border-color: #FF683B !important;
+        }
+
+        .btn-outline-dark:hover,
+        .btn.active {
+            background-color: #FF683B !important;
+        }
+
+        .nav-link.active {
+            background-color: #FF683B !important;
+            color: #ffffff !important;
+        }
+
+        a {
+            color: #000 !important;
+            text-decoration: none;
+        }
+
+        .upload-container {
+            text-align: center;
+            margin: 10px;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        .upload-label {
+            background-color: #FF683B;
+            color: white;
+            padding: 10px 20px;
+            cursor: pointer;
+            display: inline-block;
+            border-radius: 5px;
+        }
+
+        .drop-area {
+            margin: 20px;
+            padding: 20px;
+            border: 2px dashed #000000;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .preview-container img {
+            max-width: 100%;
+            height: 200px;
+            margin: 10px;
+            border-radius: 5px;
+        }
+
+        textarea {
+            resize: none;
+        }
+
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 5px;
+            max-width: 500px;
+            margin: 0 auto;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .math-function {
+            margin: 10px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 800px;
+        }
+
+
+        .plot-function {
+            margin: 10px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .keypad.active {
+            display: grid;
+        }
+
+        .key {
+            padding: 15px;
+            font-size: 18px;
+            background-color: #e0e0e0;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .key:hover {
+            background-color: #c0c0c0;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        i:hover {
+            cursor: pointer;
+        }
+
+        .fa-keyboard {
+            color: #FF683B;
+            padding: 10px;
+            background: white;
+            border-radius: 10px;
+        }
+
+        .input-section input {
+            width: calc(100% - 50px);
+            /* Adjust width to fit */
+            max-width: 400px;
+            padding: 10px;
+            border-radius: 20px;
+            border: 1px solid #ccc;
+            margin-right: 10px;
+            display: inline-block;
+        }
+
+
+        .input-section .btn {
+            padding: 10px 20px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .result-area,
+        #urlOutput {
+            text-align: left;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="https://site.chimpvine.com/">
+                    <img src="{{ url_for('static', filename='cv_logo.png') }}" alt="ChimpVineLogo" width="185" height="56" />
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+        </nav>
+        <div class="container sub-main">
+            <div class="subheader-text">
+                <h3 class="text-center mt-5">One Stop Solution For Mathematics
+                    <span class="tampered">Homework Help</span>
+                </h3>
+                <p class="text-center text-muted solution">Get step-by-step solutions for Math subject, exactly when you
+                    need them.</p>
+            </div>
+            <div class="center-buttons">
+                <ul class="nav nav-pills justify-content-center" id="tabs">
+                    <li>
+                        <a class="nav-link active" data-bs-toggle="pill" href="#basic-equation">Basic Equation</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" data-bs-toggle="pill" href="#upload-problem">Upload Problem</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" data-bs-toggle="pill" href="#add-url">Add URL</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" data-bs-toggle="pill" href="#plot-equation">Plot Equation</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="tab-content">
+                <div class="tab-pane active" id="basic-equation">
+                    <div class="math-function hidden" id="mathFunction">
+                        <div class="container">
+                            <ul class="nav nav-pills justify-content-center" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-bs-toggle="pill" href="#basic">Basic</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="pill" href="#functions">Function</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="pill" href="#calculus">Calculus</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="pill" href="#alphabet">Alphabet</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="pill" href="#sign">Sign</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content mt-3">
+                                <div id="basic" class="keypad tab-pane active"></div>
+                                <div id="functions" class="keypad tab-pane fade"></div>
+                                <div id="calculus" class="keypad tab-pane fade"></div>
+                                <div id="alphabet" class="keypad tab-pane fade"></div>
+                                <div id="sign" class="keypad tab-pane fade"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-section">
+                        <input type="text" id="mathInput" placeholder="Write any Basic math equation here">
+                        <i class="fas fa-keyboard fs-4 me-2" id="toggleIcon" data-bs-toggle="tooltip"
+                            data-bs-placement="top" title="Math Keyboard"></i>
+                        <button class="btn btn-outline-dark" id="solveButton">Solve</button>
+                    </div>
+
+                    <div id="outputSection" class="math-function hidden">
+                        <p>Processing...</p>
+                    </div>
+                </div>
+                <div class="tab-pane" id="upload-problem">
+                    <div class="math-function">
+                        <div class="upload-container">
+                            <input type="file" id="fileInput" accept="image/png, image/gif, image/jpeg"
+                                style="display:none;">
+                            <p class="text-muted">Drag and Drop, or Upload Image</p>
+                            <label for="fileInput" class="upload-label">Choose File</label>
+                            <div id="dropArea" class="drop-area">
+                                <div id="previewContainer" class="preview-container"></div>
+                            </div>
+                            <button id="solve-image" class="btn btn-success">Solve</button>
+                            <div id="ResultArea" class="result-area m-5">
+                                <p id="imageUploadProcessing" style="display:none;">Processing...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="add-url">
+                    <div class="input-section">
+                        <input type="text" id="urlInput" placeholder="Paste any URL Link Here">
+                        <button class="btn btn-outline-dark" id="urlButton">Solve</button>
+                        <div id="urlOutput" class="math-function hidden">
+                            <p>Processing...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="plot-equation">
+                    <div class="math-function hidden" id="plotMathFunction">
+                        <div class="container">
+                            <ul class="nav nav-pills justify-content-center" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-bs-toggle="pill" href="#plot-basic">Basic</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="pill" href="#plot-functions">Function</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="pill" href="#plot-calculus">Calculus</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="pill" href="#plot-alphabet">Alphabet</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="pill" href="#plot-sign">Sign</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content mt-3">
+                                <div id="plot-basic" class="keypad tab-pane active"></div>
+                                <div id="plot-functions" class="keypad tab-pane fade"></div>
+                                <div id="plot-calculus" class="keypad tab-pane fade"></div>
+                                <div id="plot-alphabet" class="keypad tab-pane fade"></div>
+                                <div id="plot-sign" class="keypad tab-pane fade"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-section">
+                        <input type="text" id="plotMathInput" placeholder="Write any equation to plot here">
+                        <i class="fas fa-keyboard fs-4 me-2" id="plotToggleIcon" data-bs-toggle="tooltip"
+                            data-bs-placement="top" title="Math Keyboard"></i>
+                        <button class="btn btn-outline-dark" id="plotSolveButton">Plot</button>
+                    </div>
+                    <div id="plotOutputSection" class="plot-function hidden">
+                        <p>Processing...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const fileInput = document.getElementById('fileInput');
+            const dropArea = document.getElementById('dropArea');
+            const previewContainer = document.getElementById('previewContainer');
+            const input = document.getElementById('mathInput');
+            const solveButton = document.getElementById('solveButton');
+            const outputSection = document.getElementById('outputSection');
+            const API_URL = "http://127.0.0.1:5000/solve_text";
+
+            // Handle Image file selection
+
+            fileInput.addEventListener('change', handleFiles);
+            dropArea.addEventListener('dragover', handleDragOver);
+            dropArea.addEventListener('drop', handleDrop);
+
+            // Handle Image over event
+                function handleDragOver(event) {
+                event.preventDefault();
+                event.stopPropagation();
+                dropArea.classList.add('drag-over');
+            }
+
+            // Handle Image drop event
+                function handleDrop(event) {
+                event.preventDefault();
+                event.stopPropagation();
+                dropArea.classList.remove('drag-over');
+                const files = event.dataTransfer.files;
+                handleFiles({ target: { files } });
+                fileInput.files = files; // Set the file input files
+            }
+
+            // Handle Image file input change
+            function handleFiles(event) {
+                const files = event.target.files;
+                previewContainer.innerHTML = '';
+                for (const file of files) {
+                    const img = document.createElement('img');
+                    const removeBtn = document.createElement('button');
+
+                    img.src = URL.createObjectURL(file);
+                    img.onload = () => URL.revokeObjectURL(img.src);
+                    img.style.position = 'relative';
+                    img.style.display = 'inline-block';
+                    img.style.margin = '10px';
+                    img.style.borderRadius = '5px';
+
+                    removeBtn.innerHTML = '<i class="fas fa-times"></i>'; // Use Font Awesome "x" icon
+                    removeBtn.className = 'btn btn-danger btn-sm';
+                    removeBtn.style.position = 'absolute';
+                    removeBtn.style.top = '5px';
+                    removeBtn.style.right = '5px';
+                    removeBtn.style.border = 'none'; // Remove default button border
+                    removeBtn.style.background = 'transparent'; // Make button background transparent
+                    removeBtn.style.color = 'red'; // Set the icon color to red
+                    removeBtn.style.fontSize = '18px'; // Adjust the size of the icon if needed
+                    removeBtn.style.cursor = 'pointer'; // Change cursor to pointer for better UX
+                    removeBtn.onclick = () => {
+                        previewContainer.removeChild(imgWrapper);
+                    };
+
+
+                    const imgWrapper = document.createElement('div');
+                    imgWrapper.style.position = 'relative';
+                    imgWrapper.style.display = 'inline-block';
+                    imgWrapper.appendChild(img);
+                    imgWrapper.appendChild(removeBtn); 
+                    previewContainer.appendChild(imgWrapper);
+                }
+            }
+
+            /* For Math Keyboard */
+            const keypads = {
+                basic: [
+                    '7', '8', '9', '√', 'π', 'e',
+                    '4', '5', '6', '×', '÷', '⌫',
+                    '1', '2', '3', '+', '-', '(',
+                    '0', '00', '.', '=', ')', 'log'
+                ],
+                functions: ['sin', 'cos', 'tan', 'ln', 'log', 'exp', '√', '(', ')', ',', '^', '⌫'],
+                calculus: ['d/dx', '∫', '∂', '∆', '∇', '∫dx', '⌫'],
+                alphabet: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '⌫'],
+                sign: ['+', '-', '×', '÷', '=', '≠', '≤', '≥', '±', '∞', '≈', '<', '>', '∑', '⌫']
+            };
+
+            function createButtons(buttons, containerId) {
+                const container = document.getElementById(containerId);
+                container.innerHTML = '';
+                buttons.forEach(buttonValue => {
+                    const button = document.createElement('button');
+                    button.textContent = buttonValue;
+                    button.className = 'key';
+                    button.addEventListener('click', () => {
+                        if (buttonValue === '⌫') {
+                            input.value = input.value.slice(0, -1);
+                        } else {
+                            input.value += buttonValue;
+                        }
+                    });
+                    container.appendChild(button);
+                });
+            }
+
+            Object.keys(keypads).forEach(keypad => {
+                createButtons(keypads[keypad], keypad);
+            });
+
+
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.keypad').forEach(k => k.classList.remove('active'));
+                    tab.classList.add('active');
+                    document.getElementById(tab.getAttribute('data-tab')).classList.add('active');
+                });
+            });
+
+            document.getElementById('toggleIcon').addEventListener('click', function () {
+                var mathFunctionDiv = document.getElementById('mathFunction');
+                if (mathFunctionDiv.classList.contains('hidden')) {
+                    mathFunctionDiv.classList.remove('hidden');
+                } else {
+                    mathFunctionDiv.classList.add('hidden');
+                }
+            });
+
+            /* for generate api calls (res)*/
+            solveButton.addEventListener('click', () => {
+                const equation = input.value;
+                if (!equation) {
+                    alert("Please enter a basic equation.");
+                    return;
+                }
+                console.log("Equation:", equation);
+                outputSection.innerHTML = "<p>Processing...</p>";
+                outputSection.classList.remove('hidden');
+                // Disable the button and input field while processing
+                solveButton.disabled = true;
+                input.disabled = true;
+                generateURLResponse(equation)
+                    .then(data => {
+                        console.log("API response:", data);
+                        // Display the response in the desired format
+                        outputSection.innerHTML = `
+                            Your Given Equation: ${equation}
+                            ${data.steps}
+                        `;
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                        outputSection.innerHTML = `<p>Error: ${error.message}</p>`;
+                    })
+                    .finally(() => {
+                        // Re-enable the button and input field after processing
+                        solveButton.disabled = false;
+                        input.disabled = false;
+                        // Clear the input field
+                        input.value = '';
+                    });
+            });
+
+
+
+            function generateURLResponse(equation) {
+                const requestOptions = {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer`
+                    },
+                    body: JSON.stringify({ user_input: equation })
+                };
+
+                return fetch(API_URL, requestOptions)
+                    .then(res => res.json());
+            }
+        });
+
+        /*End for generate api calls (res)*/
+
+        /*plot Equation response*/
+        document.addEventListener('DOMContentLoaded', () => {
+            const plotInput = document.getElementById('plotMathInput');
+            const plotSolveButton = document.getElementById('plotSolveButton');
+            const plotOutputSection = document.getElementById('plotOutputSection');
+
+            const keypads = {
+                basic: [
+                    '7', '8', '9', '√', 'π', 'e',
+                    '4', '5', '6', '×', '÷', '⌫',
+                    '1', '2', '3', '+', '-', '(',
+                    '0', '00', '.', '=', ')', 'log'
+                ],
+                functions: ['sin', 'cos', 'tan', 'ln', 'log', 'exp', '√', '(', ')', ',', '^', '⌫'],
+                calculus: ['d/dx', '∫', '∂', '∆', '∇', '∫dx', '⌫'],
+                alphabet: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '⌫'],
+                sign: ['+', '-', '×', '÷', '=', '≠', '≤', '≥', '±', '∞', '≈', '<', '>', '∑', '⌫']
+            };
+
+            function createButtons(buttons, containerId) {
+                const container = document.getElementById(containerId);
+                container.innerHTML = '';
+                buttons.forEach(buttonValue => {
+                    const button = document.createElement('button');
+                    button.textContent = buttonValue;
+                    button.className = 'key';
+                    button.addEventListener('click', () => {
+                        if (buttonValue === '⌫') {
+                            plotInput.value = plotInput.value.slice(0, -1);
+                        } else {
+                            plotInput.value += buttonValue;
+                        }
+                    });
+                    container.appendChild(button);
+                });
+            }
+
+            Object.keys(keypads).forEach(keypad => {
+                createButtons(keypads[keypad], `plot-${keypad}`);
+            });
+
+            document.getElementById('plotToggleIcon').addEventListener('click', function () {
+                var plotMathFunctionDiv = document.getElementById('plotMathFunction');
+                if (plotMathFunctionDiv.classList.contains('hidden')) {
+                    plotMathFunctionDiv.classList.remove('hidden');
+                } else {
+                    plotMathFunctionDiv.classList.add('hidden');
+                }
+            });
+
+            plotSolveButton.addEventListener('click', () => {
+                const equation = plotInput.value;
+                if (!equation) {
+                    alert("Please enter an equation to plot.");
+                    return;
+                }
+                plotInput.disabled = true;
+                plotSolveButton.disabled = true;
+                console.log("Equation to plot:", equation);
+                plotOutputSection.innerHTML = "<p>Processing...</p>";
+                plotOutputSection.classList.remove('hidden');
+                plotEquation(equation)
+                    .then(imgBlob => {
+                        const imgUrl = URL.createObjectURL(imgBlob);
+                        plotOutputSection.innerHTML = `<img src="${imgUrl}" alt="Plot Image" />`;
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                        plotOutputSection.innerHTML = `<p>Error: ${error.message}</p>`;
+                    })
+                    .finally(() => {
+                        plotInput.disabled = false;
+                        plotSolveButton.disabled = false;
+                        plotInput.value = '';
+                    });
+            });
+
+            const plotEquation = equation => {
+                const requestOptions = {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer`
+                    },
+                    body: JSON.stringify({ equation })
+                };
+
+                return fetch(`https://chatbot.chimpvine.com/plot`, requestOptions)
+                    .then(res => {
+                        if (!res.ok) throw new Error('Error plotting equation');
+                        return res.blob();
+                    });
+            };
+            /*End of plot Equation response*/
+
+            /*Url link response*/
+
+            async function processURL(url) {
+                const requestOptions = {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer" // Replace with actual API Key if required
+                    },
+                    body: JSON.stringify({ image_url: url }) // Ensure the key matches what the API expects
+                };
+
+                const response = await fetch('https://chatbot.chimpvine.com/solve_image_url', requestOptions);
+                if (!response.ok) throw new Error('Error processing URL');
+                return await response.json();
+            }
+
+            document.getElementById('urlButton').addEventListener('click', async () => {
+                const urlInput = document.getElementById('urlInput');
+                const urlButton = document.getElementById('urlButton');
+                const url = urlInput.value.trim();
+
+                if (!url) {
+                    alert('Please enter a URL.');
+                    return;
+                }
+
+                // Check if the URL starts with 'https://'
+                if (!url.startsWith('https://')) {
+                    alert('Only HTTPS URLs are accepted. Please enter a URL that starts with "https://".');
+                    return;
+                }
+
+                const urlOutputSection = document.getElementById('urlOutput');
+                urlOutputSection.innerHTML = "<p>Processing...</p>";
+                urlOutputSection.classList.remove('hidden');
+
+                // Disable the button during processing
+                urlInput.disabled = true;
+                urlButton.disabled = true;
+
+                try {
+                    const data = await processURL(url);
+                    urlOutputSection.innerHTML = `<p>Your Given URL:  ${url}</p><p>${data.steps || data.error || 'No steps available'}</p>`;
+                } catch (error) {
+                    console.error("Error:", error);
+                    urlOutputSection.innerHTML = `<p>Error: ${error.message}</p>`;
+                } finally {
+                    // Enable the button after processing
+                    urlButton.disabled = false;
+                    urlInput.disabled = false;
+                    // Clear the input field after processing
+                    urlInput.value = '';
+                }
+            });
+            /*end of url link response*/
+
+            /* Image Upload Response*/
+
+            // Event listener for the upload button
+            document.getElementById('solve-image').addEventListener('click', solveImageUpload);
+            
+
+            // Async function to handle the image upload and API call
+            async function solveImageUpload() {
+                const imageUpload = document.getElementById('fileInput').files[0];
+                if (!imageUpload) {
+                    alert('Please select an image to upload.');
+                    return;
+                }
+
+                // Display processing text
+                document.getElementById('imageUploadProcessing').style.display = 'inline';
+                document.getElementById('solve-image').disabled = true;
+                document.getElementById('fileInput').disabled = true;
+                document.querySelector('label[for="fileInput"]').style.pointerEvents = 'none'; // Disable the label
+
+                try {
+                    const formData = new FormData();
+                    formData.append('image', imageUpload);
+
+                    const response = await fetch('https://chatbot.chimpvine.com/solve_image_upload', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+
+                    const data = await response.json();
+                    if (data.error) {
+                        document.getElementById('ResultArea').innerHTML = `<p>Error: ${data.error}</p>`;
+                    } else {
+                        displayHistory('Image Upload', imageUpload.name, data.steps || 'No steps provided.');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Failed to process the request. Please try again.');
+                    document.getElementById('ResultArea').innerHTML = '<p>Failed to process the request. Please try again.</p>';
+                } finally {
+                    // Hide processing text after request completes
+                    document.getElementById('imageUploadProcessing').style.display = 'none';
+                    document.getElementById('solve-image').disabled = false;
+                    document.getElementById('fileInput').disabled = false;
+                    document.querySelector('label[for="fileInput"]').style.pointerEvents = 'auto'; // Re-enable the label
+                    document.getElementById('fileInput').value = ''; // Clear the input field
+                }
+            }
+            // Function to display history or result
+            function displayHistory(title, fileName, result) {
+                const historyContainer = document.createElement('div');
+                historyContainer.innerHTML = `<p>${result}</p>`;
+                document.getElementById('ResultArea').appendChild(historyContainer);
+            }
+
+            /* End of Image Upload Response*/
+        });
+
+    </script>
+</body>
+
+</html>
