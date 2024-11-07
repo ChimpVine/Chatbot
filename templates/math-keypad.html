@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chimpvine - ChattyBot</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        body {
+            background-color: #EAEEF3;
+            font-family: "Poppins", sans-serif;
+        }
+
+        .bg-body-tertiary {
+            background-color: #8172DB !important;
+        }
+
+        /*Sub-main CSS */
+        .header-text {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .subheader-text {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        .tampered {
+            background-image: linear-gradient(179deg, #ffa620 0%, #fba11a 50%, transparent 54%, transparent 100%);
+            font-weight: 700;
+            margin-bottom: 3.5rem;
+            background-size: 100% 15%;
+            background-repeat: repeat-x;
+            background-position: left 0% bottom 10%;
+            padding-bottom: 5px;
+        }
+
+        .solution {
+            font-size: 14px;
+        }
+
+        .center-buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .center-buttons .btn {
+            margin: 5px;
+        }
+
+
+        .input-section {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .input-section input {
+            width: 60%;
+            padding: 10px;
+            border-radius: 20px;
+            border: 1px solid #ccc;
+            margin-right: 10px;
+        }
+
+        .input-section .btn {
+            padding: 10px 20px;
+            border-radius: 20px;
+        }
+
+
+        .btn-dark {
+            background-color: #FF683B !important;
+            border-color: #FF683B !important;
+        }
+
+        .btn-outline-dark {
+            border-color: #FF683B !important;
+        }
+
+        .btn-outline-dark:hover,
+        .btn.active {
+            background-color: #FF683B !important;
+        }
+
+        .nav-link.active {
+            background-color: #FF683B !important;
+            color: #ffffff !important;
+        }
+
+        a {
+            color: #000 !important;
+            text-decoration: none;
+        }
+
+        .upload-container {
+            text-align: center;
+            margin: 10px;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        .upload-label {
+            background-color: #FF683B;
+            color: white;
+            padding: 10px 20px;
+            cursor: pointer;
+            display: inline-block;
+            border-radius: 5px;
+        }
+
+        .drop-area {
+            margin: 20px;
+            padding: 20px;
+            border: 2px dashed #000000;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .preview-container img {
+            max-width: 100%;
+            height: 200px;
+            margin: 10px;
+            border-radius: 5px;
+        }
+
+        textarea {
+            resize: none;
+        }
+
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 5px;
+            max-width: 500px;
+            margin: 0 auto;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .math-function {
+            margin: 10px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 800px;
+        }
+
+
+        .plot-function {
+            margin: 10px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .keypad.active {
+            display: grid;
+        }
+
+        .key {
+            padding: 15px;
+            font-size: 18px;
+            background-color: #e0e0e0;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .key:hover {
+            background-color: #c0c0c0;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        i:hover {
+            cursor: pointer;
+        }
+
+        .fa-keyboard {
+            color: #FF683B;
+            padding: 10px;
+            background: white;
+            border-radius: 10px;
+        }
+
+        .input-section input {
+            width: calc(100% - 50px);
+            /* Adjust width to fit */
+            max-width: 400px;
+            padding: 10px;
+            border-radius: 20px;
+            border: 1px solid #ccc;
+            margin-right: 10px;
+            display: inline-block;
+        }
+
+
+        .input-section .btn {
+            padding: 10px 20px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .result-area,
+        #urlOutput {
+            text-align: left;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="https://site.chimpvine.com/">
+                    <img src="{{ url_for('static', filename='cv_logo.png') }}" alt="ChimpVineLogo" width="185"
+                        height="56" />
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+        </nav>
+        <div class="container sub-main">
+            <div class="subheader-text">
+                <h3 class="text-center mt-5">One Stop Solution For Mathematics
+                    <span class="tampered">Homework Help</span>
+                </h3>
+                <p class="text-center text-muted solution">Get step-by-step solutions for Math subject, exactly when you
+                    need them.</p>
+            </div>
+            <div class="center-buttons">
+                <ul class="nav nav-pills justify-content-center" id="tabs">
+                    <li>
+                        <a class="nav-link active" data-bs-toggle="pill" href="#basic-equation">Basic Equation</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" data-bs-toggle="pill" href="#upload-problem">Upload Problem</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" data-bs-toggle="pill" href="#add-url">Add URL</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" data-bs-toggle="pill" href="#plot-equation">Plot Equation</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="tab-content">
+                <div class="tab-pane active" id="basic-equation">
+                    <div class="math-function hidden" id="mathFunction">
+                        <div class="container">
+                            <ul class="nav nav-pills justify-content-center" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-bs-toggle="pill" href="#basic">Basic</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="pill" href="#functions">Function</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="pill" href="#calculus">Calculus</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="pill" href="#alphabet">Alphabet</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="pill" href="#sign">Sign</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content mt-3">
+                                <div id="basic" class="keypad tab-pane active"></div>
+                                <div id="functions" class="keypad tab-pane fade"></div>
+                                <div id="calculus" class="keypad tab-pane fade"></div>
+                                <div id="alphabet" class="keypad tab-pane fade"></div>
+                                <div id="sign" class="keypad tab-pane fade"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-section">
+                        <input type="text" id="mathInput" placeholder="Write any Basic math equation here">
+                        <i class="fas fa-keyboard fs-4 me-2" id="toggleIcon" data-bs-toggle="tooltip"
+                            data-bs-placement="top" title="Math Keyboard"></i>
+                        <button class="btn btn-outline-dark" id="solveButton">Solve</button>
+                    </div>
+
+                    <div id="outputSection" class="math-function hidden">
+                        <p>Processing...</p>
+                    </div>
+                </div>
+                <div class="tab-pane" id="upload-problem">
+                    <div class="math-function">
+                        <div class="upload-container">
+                            <input type="file" id="fileInput" accept="image/png, image/gif, image/jpeg"
+                                style="display:none;">
+                            <p class="text-muted">Drag and Drop, or Upload Image</p>
+                            <label for="fileInput" class="upload-label">Choose File</label>
+                            <div id="dropArea" class="drop-area">
+                                <div id="previewContainer" class="preview-container"></div>
+                            </div>
+                            <textarea id="problemDescription" class="form-control mt-3" rows="4"
+                                placeholder="Describe the problem (optional)"></textarea>
+                            <button id="solve-image" class="btn btn-success mt-3">Solve</button>
+                            <div id="ResultArea" class="result-area m-5">
+                                <p id="imageUploadProcessing" style="display:none;">Processing...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="add-url">
+                    <div class="input-section">
+                        <input type="text" id="urlInput" placeholder="Paste any URL Link Here">
+                        <textarea id="URLproblemDescription" class="form-control mt-3" rows="4"
+                            placeholder="Describe the problem (optional)"></textarea>
+                        <button class="btn btn-outline-dark mt-3" id="urlButton">Solve</button>
+                        <div id="urlOutput" class="math-function hidden">
+                            <p>Processing...</p>
+                        </div>
+                        <div id="urlOutput" class="result-area hidden">
+                            <!-- Result will be displayed here -->
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="plot-equation">
+                    <div class="math-function hidden" id="plotMathFunction">
+                        <div class="container">
+                            <ul class="nav nav-pills justify-content-center" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-bs-toggle="pill" href="#plot-basic">Basic</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="pill" href="#plot-functions">Function</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="pill" href="#plot-calculus">Calculus</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="pill" href="#plot-alphabet">Alphabet</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="pill" href="#plot-sign">Sign</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content mt-3">
+                                <div id="plot-basic" class="keypad tab-pane active"></div>
+                                <div id="plot-functions" class="keypad tab-pane fade"></div>
+                                <div id="plot-calculus" class="keypad tab-pane fade"></div>
+                                <div id="plot-alphabet" class="keypad tab-pane fade"></div>
+                                <div id="plot-sign" class="keypad tab-pane fade"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-section">
+                        <input type="text" id="plotMathInput" placeholder="Write any equation to plot here">
+                        <i class="fas fa-keyboard fs-4 me-2" id="toggleIcon" data-bs-toggle="tooltip"
+                            data-bs-placement="top" title="Math Keyboard"></i>
+                        <button class="btn btn-outline-dark" id="plotSolveButton">Plot</button>
+                    </div>
+                    <div id="plotOutputSection" class="plot-function hidden">
+                        <p>Processing...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const fileInput = document.getElementById('fileInput');
+            const dropArea = document.getElementById('dropArea');
+            const previewContainer = document.getElementById('previewContainer');
+            const input = document.getElementById('mathInput');
+            const solveButton = document.getElementById('solveButton');
+            const outputSection = document.getElementById('outputSection');
+            const API_URL = "https://chatbot.chimpvine.com/solve_text";
+
+            // Handle Image file selection (unchanged)
+            // ...
+
+            /* For Math Keyboard (unchanged) */
+            // Handle Image file selection
+
+            fileInput.addEventListener('change', handleFiles);
+            dropArea.addEventListener('dragover', handleDragOver);
+            dropArea.addEventListener('drop', handleDrop);
+
+            // Handle Image over event
+            function handleDragOver(event) {
+                event.preventDefault();
+                event.stopPropagation();
+                dropArea.classList.add('drag-over');
+            }
+
+            // Handle Image drop event
+            function handleDrop(event) {
+                event.preventDefault();
+                event.stopPropagation();
+                dropArea.classList.remove('drag-over');
+                const files = event.dataTransfer.files;
+                handleFiles({ target: { files } });
+                fileInput.files = files; // Set the file input files
+            }
+
+            // Handle Image file input change
+            function handleFiles(event) {
+                const files = event.target.files;
+                previewContainer.innerHTML = '';
+                for (const file of files) {
+                    const img = document.createElement('img');
+                    const removeBtn = document.createElement('button');
+
+                    img.src = URL.createObjectURL(file);
+                    img.onload = () => URL.revokeObjectURL(img.src);
+                    img.style.position = 'relative';
+                    img.style.display = 'inline-block';
+                    img.style.margin = '10px';
+                    img.style.borderRadius = '5px';
+
+                    removeBtn.innerHTML = '<i class="fas fa-times"></i>'; // Use Font Awesome "x" icon
+                    removeBtn.className = 'btn btn-danger btn-sm';
+                    removeBtn.style.position = 'absolute';
+                    removeBtn.style.top = '5px';
+                    removeBtn.style.right = '5px';
+                    removeBtn.style.border = 'none'; // Remove default button border
+                    removeBtn.style.background = 'transparent'; // Make button background transparent
+                    removeBtn.style.color = 'red'; // Set the icon color to red
+                    removeBtn.style.fontSize = '18px'; // Adjust the size of the icon if needed
+                    removeBtn.style.cursor = 'pointer'; // Change cursor to pointer for better UX
+                    removeBtn.onclick = () => {
+                        previewContainer.removeChild(imgWrapper);
+                    };
+
+
+                    const imgWrapper = document.createElement('div');
+                    imgWrapper.style.position = 'relative';
+                    imgWrapper.style.display = 'inline-block';
+                    imgWrapper.appendChild(img);
+                    imgWrapper.appendChild(removeBtn);
+                    previewContainer.appendChild(imgWrapper);
+                }
+            }
+
+            /* For Math Keyboard */
+            const keypads = {
+                basic: [
+                    '7', '8', '9', '√', 'π', 'e',
+                    '4', '5', '6', '×', '÷', '⌫',
+                    '1', '2', '3', '+', '-', '(',
+                    '0', '00', '.', '=', ')', 'log'
+                ],
+                functions: ['sin', 'cos', 'tan', 'ln', 'log', 'exp', '√', '(', ')', ',', '^', '⌫'],
+                calculus: ['d/dx', '∫', '∂', '∆', '∇', '∫dx', '⌫'],
+                alphabet: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '⌫'],
+                sign: ['+', '-', '×', '÷', '=', '≠', '≤', '≥', '±', '∞', '≈', '<', '>', '∑', '⌫']
+            };
+
+            function createButtons(buttons, containerId) {
+                const container = document.getElementById(containerId);
+                container.innerHTML = '';
+                buttons.forEach(buttonValue => {
+                    const button = document.createElement('button');
+                    button.textContent = buttonValue;
+                    button.className = 'key';
+                    button.addEventListener('click', () => {
+                        if (buttonValue === '⌫') {
+                            input.value = input.value.slice(0, -1);
+                        } else {
+                            input.value += buttonValue;
+                        }
+                    });
+                    container.appendChild(button);
+                });
+            }
+
+            Object.keys(keypads).forEach(keypad => {
+                createButtons(keypads[keypad], keypad);
+            });
+
+
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.keypad').forEach(k => k.classList.remove('active'));
+                    tab.classList.add('active');
+                    document.getElementById(tab.getAttribute('data-tab')).classList.add('active');
+                });
+            });
+
+            document.getElementById('toggleIcon').addEventListener('click', function () {
+                var mathFunctionDiv = document.getElementById('mathFunction');
+                if (mathFunctionDiv.classList.contains('hidden')) {
+                    mathFunctionDiv.classList.remove('hidden');
+                } else {
+                    mathFunctionDiv.classList.add('hidden');
+                }
+            });
+
+            /* Generate API calls and handle responses */
+            solveButton.addEventListener('click', () => {
+                const equation = input.value.trim();
+                if (!equation) {
+                    alert("Please enter a basic equation.");
+                    return;
+                }
+                outputSection.innerHTML = "<p>Processing...</p>";
+                outputSection.classList.remove('hidden');
+                solveButton.disabled = true;
+                input.disabled = true;
+
+                generateURLResponse(equation)
+                    .then(data => {
+                        console.log("API response:", data);
+                        displayResponse(data);
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                        outputSection.innerHTML = `<p>Error: ${error.message}</p>`;
+                    })
+                    .finally(() => {
+                        solveButton.disabled = false;
+                        input.disabled = false;
+                        input.value = '';
+                    });
+            });
+
+            function generateURLResponse(equation) {
+                const requestOptions = {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ user_input: equation })
+                };
+
+                return fetch(API_URL, requestOptions)
+                    .then(res => {
+                        if (!res.ok) {
+                            throw new Error(`HTTP error! Status: ${res.status}`);
+                        }
+                        return res.json();
+                    })
+                    .then(data => {
+                        console.log("API response:", data);
+                        return data;
+                    });
+            }
+
+            function displayResponse(data) {
+                outputSection.innerHTML = '';
+
+                let html = `
+                <div class="card my-4">
+                    <div class="card-body">
+                `;
+
+                // Display the problem
+                if (data.problem) {
+                    html += `
+                        <h5 class="card-title">Problem</h5>
+                        <p class="card-text">${data.problem}</p>
+                        <hr/>
+                    `;
+                }
+
+                // Display the concept
+                if (data.concept) {
+                    html += `
+                        <h5 class="card-title">Concept</h5>
+                        <p class="card-text">${data.concept}</p>
+                        <hr/>
+                    `;
+                }
+
+                // Display the steps
+                if (Array.isArray(data.steps) && data.steps.length > 0) {
+                    html += `<h5 class="card-title">Step-by-Step Solution</h5>`;
+                    html += `<ol class="list-group list-group-numbered">`;
+                    data.steps.forEach(step => {
+                        html += `
+                            <li class="list-group-item">
+                                <p><strong>Step ${step.step_number}:</strong> ${step.description}</p>
+                                <p><strong>Explanation:</strong> ${step.explanation}</p>
+                                <p><strong>calculation:</strong> ${step.calculation}</p>
+                            </li>
+                        `;
+                    });
+                    html += `</ol><hr/>`;
+                }
+
+                // Display the final answer
+                if (data.final_answer) {
+                    html += `
+                        <h5 class="card-title">Final Answer</h5>
+                        <p class="card-text">${data.final_answer}</p>
+                        <hr/>
+                    `;
+                }
+
+                // Display common mistakes and tips
+                if (Array.isArray(data.common_mistakes_and_tips) && data.common_mistakes_and_tips.length > 0) {
+                    html += `<h5 class="card-title">Common Mistakes and Tips</h5>`;
+                    html += `<ul class="list-group">`;
+                    data.common_mistakes_and_tips.forEach(tip => {
+                        html += `<li class="list-group-item">${tip}</li>`;
+                    });
+                    html += `</ul>`;
+                }
+
+                html += `
+                    </div>
+                </div>
+                `;
+
+                outputSection.innerHTML = html;
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const solveImageButton = document.getElementById('solve-image');
+            const imageFileInput = document.getElementById('fileInput');
+            const problemDescription = document.getElementById('problemDescription');
+            const imageResultArea = document.getElementById('ResultArea');
+            const imageUploadProcessing = document.getElementById('imageUploadProcessing');
+            const IMAGE_UPLOAD_API_URL = "https://chatbot.chimpvine.com/solve_image_upload";
+
+            // Handle the "Solve Image" button click
+            solveImageButton.addEventListener('click', () => {
+                const files = imageFileInput.files;
+
+                if (files.length === 0) {
+                    alert("Please upload an image.");
+                    return;
+                }
+
+                imageUploadProcessing.style.display = 'block'; // Show processing message
+
+                const formData = new FormData();
+                formData.append('image', files[0]);
+                formData.append('user_question', problemDescription.value || '');
+
+                fetch(IMAGE_UPLOAD_API_URL, {
+                    method: 'POST',
+                    body: formData,
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("Image Upload API Response:", data);
+                        displayImageResponse(data);
+                    })
+                    .catch(error => {
+                        console.error("Error uploading image:", error);
+                        imageResultArea.innerHTML = `<p>Error: ${error.message}</p>`;
+                    })
+                    .finally(() => {
+                        imageUploadProcessing.style.display = 'none'; // Hide processing message
+                    });
+            });
+
+            // Display the result of the image problem
+            function displayImageResponse(data) {
+                imageResultArea.innerHTML = '';
+
+                let html = `
+                <div class="card my-4">
+                    <div class="card-body">
+                `;
+
+                // Display the problem
+                if (data.problem) {
+                    html += `
+                        <h5 class="card-title">Problem</h5>
+                        <p class="card-text">${data.problem}</p>
+                        <hr/>
+                    `;
+                }
+
+                // Display the concept
+                if (data.concept) {
+                    html += `
+                        <h5 class="card-title">Concept</h5>
+                        <p class="card-text">${data.concept}</p>
+                        <hr/>
+                    `;
+                }
+
+                // Display the steps
+                if (Array.isArray(data.steps) && data.steps.length > 0) {
+                    html += `<h5 class="card-title">Step-by-Step Solution</h5>`;
+                    html += `<ol class="list-group list-group-numbered">`;
+                    data.steps.forEach(step => {
+                        html += `
+                            <li class="list-group-item">
+                                <p><strong>Step ${step.step_number}:</strong> ${step.description}</p>
+                                <p><strong>Explanation:</strong> ${step.explanation}</p>
+                                <p><strong>Calculation:</strong> ${step.calculation}</p>
+                            </li>
+                        `;
+                    });
+                    html += `</ol><hr/>`;
+                }
+
+                // Display the final answer
+                if (data.final_answer) {
+                    html += `
+                        <h5 class="card-title">Final Answer</h5>
+                        <p class="card-text">${data.final_answer}</p>
+                        <hr/>
+                    `;
+                }
+
+                // Display common mistakes and tips
+                if (Array.isArray(data.common_mistakes_and_tips) && data.common_mistakes_and_tips.length > 0) {
+                    html += `<h5 class="card-title">Common Mistakes and Tips</h5>`;
+                    html += `<ul class="list-group">`;
+                    data.common_mistakes_and_tips.forEach(tip => {
+                        html += `<li class="list-group-item">${tip}</li>`;
+                    });
+                    html += `</ul>`;
+                }
+
+                html += `
+                    </div>
+                </div>
+                `;
+
+                imageResultArea.innerHTML = html;
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const solveUrlButton = document.getElementById('urlButton');
+            const urlInput = document.getElementById('urlInput');
+            const urlProblemDescription = document.getElementById('URLproblemDescription');
+            const urlResultArea = document.getElementById('urlOutput');
+            const IMAGE_URL_API_URL = "https://chatbot.chimpvine.com/solve_image_url";
+
+            // Handle the "Solve URL" button click
+            solveUrlButton.addEventListener('click', () => {
+                const imageUrl = urlInput.value.trim();
+                const userQuestion = urlProblemDescription.value.trim();
+
+                if (!imageUrl) {
+                    alert("Please enter a valid image URL.");
+                    return;
+                }
+
+                urlResultArea.innerHTML = `<p>Processing...</p>`; // Show processing message.
+                urlResultArea.classList.remove('hidden'); // Make result area visible
+
+                const requestBody = {
+                    image_url: imageUrl,
+                    user_question: userQuestion
+                };
+
+                console.log("Sending request to API with:", requestBody);  // Debugging log
+
+                fetch(IMAGE_URL_API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestBody)
+                })
+                    .then(response => {
+                        console.log("Received response:", response); // Debugging log
+
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log("Image URL API Response:", data); // Debugging log
+                        displayUrlResponse(data); // Call the function to update the UI
+                    })
+                    .catch(error => {
+                        console.error("Error processing URL:", error);
+                        urlResultArea.innerHTML = `<p>Error: ${error.message}</p>`;
+                    });
+            });
+
+            // Function to display the result of the URL problem
+            function displayUrlResponse(data) {
+                console.log("Displaying response data on the UI:", data); // Debugging log
+
+                // Check if the result area is selected properly
+                if (!urlResultArea) {
+                    console.error("URL Result Area not found!");
+                    return;
+                }
+
+                urlResultArea.innerHTML = '';  // Clear previous results
+
+                let html = `
+            <div class="card my-4">
+                <div class="card-body">
+            `;
+
+                // Display the problem
+                if (data.problem) {
+                    html += `
+                    <h5 class="card-title">Problem</h5>
+                    <p class="card-text">${data.problem}</p>
+                    <hr/>
+                `;
+                }
+
+                // Display the concept
+                if (data.concept) {
+                    html += `
+                    <h5 class="card-title">Concept</h5>
+                    <p class="card-text">${data.concept}</p>
+                    <hr/>
+                `;
+                }
+
+                // Display the steps
+                if (Array.isArray(data.steps) && data.steps.length > 0) {
+                    html += `<h5 class="card-title">Step-by-Step Solution</h5>`;
+                    html += `<ol class="list-group list-group-numbered">`;
+                    data.steps.forEach(step => {
+                        html += `
+                        <li class="list-group-item">
+                            <p><strong>Step ${step.step_number}:</strong> ${step.description}</p>
+                            <p><strong>Explanation:</strong> ${step.explanation}</p>
+                            <p><strong>Calculation:</strong> ${step.calculation}</p>
+                        </li>
+                    `;
+                    });
+                    html += `</ol><hr/>`;
+                }
+
+                // Display the final answer
+                if (data.final_answer) {
+                    html += `
+                    <h5 class="card-title">Final Answer</h5>
+                    <p class="card-text">${data.final_answer}</p>
+                    <hr/>
+                `;
+                }
+
+                // Display common mistakes and tips
+                if (Array.isArray(data.common_mistakes_and_tips) && data.common_mistakes_and_tips.length > 0) {
+                    html += `<h5 class="card-title">Common Mistakes and Tips</h5>`;
+                    html += `<ul class="list-group">`;
+                    data.common_mistakes_and_tips.forEach(tip => {
+                        html += `<li class="list-group-item">${tip}</li>`;
+                    });
+                    html += `</ul>`;
+                }
+
+                html += `
+                </div>
+            </div>
+            `;
+
+                urlResultArea.innerHTML = html;
+                console.log("Response successfully displayed!");  // Debugging log
+            }
+        });
+    </script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const plotInput = document.getElementById('plotMathInput');
+            const plotSolveButton = document.getElementById('plotSolveButton');
+            const plotOutputSection = document.getElementById('plotOutputSection');
+
+            // Handle plot button click
+            plotSolveButton.addEventListener('click', () => {
+                const equation = plotInput.value.trim();
+                if (!equation) {
+                    alert("Please enter an equation to plot.");
+                    return;
+                }
+
+                plotInput.disabled = true;  // Disable input and button while processing
+                plotSolveButton.disabled = true;
+
+                console.log("Equation to plot:", equation);
+                plotOutputSection.innerHTML = "<p>Processing...</p>";
+                plotOutputSection.classList.remove('hidden');
+
+                // Call the function to fetch the plot image
+                plotEquation(equation)
+                    .then(imgBlob => {
+                        const imgUrl = URL.createObjectURL(imgBlob);
+                        plotOutputSection.innerHTML = `<img src="${imgUrl}" alt="Plot Image" class="img-fluid" />`;  // Display the plot image
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                        plotOutputSection.innerHTML = `<p>Error: ${error.message}</p>`;
+                    })
+                    .finally(() => {
+                        plotInput.disabled = false;  // Re-enable input and button
+                        plotSolveButton.disabled = false;
+                        plotInput.value = '';  // Clear input after processing
+                    });
+            });
+
+            // Function to call the plot API
+            const plotEquation = equation => {
+                const requestOptions = {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ equation })
+                };
+
+                return fetch(`https://chatbot.chimpvine.com/plot`, requestOptions)
+                    .then(res => {
+                        if (!res.ok) throw new Error('Error plotting equation');
+                        return res.blob();  // Get the image blob
+                    });
+            };
+        });
+    </script>
+
+</body>
+
+</html>
